@@ -29,7 +29,7 @@ Shared at compile time:
 Encode/decode variable-length framed messages (4–31 bytes, 0–27 byte payload), CRC-8 protection,
 controller/peripheral role model, per-opcode handler dispatch.
 
-**Platforms:** Arduino and compatible MCUs (Arduino IDE + PlatformIO `cameronbrooks11/CRUMBS@^0.11.0`);
+**Platforms:** Arduino and compatible MCUs (Arduino IDE + PlatformIO `cameronbrooks11/CRUMBS@^0.12.0`);
 Linux hosts via linux-wire. The core C library compiles with no platform dependency — HAL is
 injected via fn-pointer structs.
 
@@ -55,7 +55,7 @@ version helpers. Header-only C.
 
 - Capabilities are **additive only** — new features add bits; existing bit assignments never change.
   No type-ID splits for capability variations.
-- `bread_check_crumbs_compat` requires `CRUMBS_VERSION >= 1100` (v0.11.0).
+- `bread_check_crumbs_compat` requires `CRUMBS_VERSION >= 1200` (v0.12.0).
 - The `rlht_get_state` / `dcmt_get_state` C helpers use `crumbs_device_t` fn-pointers suited for
   embedded controllers. **C++ providers must not use these helpers** — they bypass `crumbs::Session`
   and cannot be unit-tested without hardware. Use `session.query_read()` and parse frame payload
@@ -326,7 +326,7 @@ consumers add CRUMBS includes manually until exported targets propagate this tra
 
 ```
 bread_check_crumbs_compat(crumbs_version from opcode 0x00 reply)
-  → pass if crumbs_version >= BREAD_MIN_CRUMBS_VERSION (1100 = v0.11.0)
+  → pass if crumbs_version >= BREAD_MIN_CRUMBS_VERSION (1200 = v0.12.0)
 
 bread_check_module_compat(module_major, module_minor, required_major, required_minor)
   → pass if major matches AND minor >= required minimum
