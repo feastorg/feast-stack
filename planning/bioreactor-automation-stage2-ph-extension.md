@@ -14,7 +14,7 @@ Do not enable Stage 2 until all are true:
    - bool-capable parameter access in BT path
    - open-loop mode guard helper
    - edge-triggered command emission policy
-   - mode-exit handoff behavior
+   - mode-exit handoff behavior via runtime mode-change callback
 3. `ph0` readings are commissioned, calibrated, and stable.
 4. Manual acid/base pump direction and flow behavior are verified in `MANUAL` mode.
 5. Operators are comfortable with `AUTO -> MANUAL` recovery flow.
@@ -93,6 +93,7 @@ After any pulse:
 ### F) Mode-exit handoff
 
 - On `AUTO -> MANUAL/FAULT/IDLE`, send deterministic handoff command for `dcmt1` with both channels off.
+- Implement this in runtime mode-change callback path, not BT tick flow.
 
 ## 5) Runtime Parameters (Stage 2 Additions)
 
@@ -138,7 +139,7 @@ Operational rules:
    - force signal quality failure,
    - verify pH dosing halts and remains halted until quality recovers.
 5. Mode-exit check:
-   - switch `AUTO -> MANUAL` and `AUTO -> FAULT`, confirm `dcmt1` handoff drives both channels off.
+   - switch `AUTO -> MANUAL` and `AUTO -> FAULT`, confirm runtime callback handoff drives `dcmt1` channels off.
 
 Acceptance:
 

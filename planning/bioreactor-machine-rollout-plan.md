@@ -66,7 +66,7 @@ Goal: introduce automation without jumping directly into closed-loop bioprocess 
 - Add bool-capable BT parameter access path.
 - Add open-loop mode guard helper (enforce + verify).
 - Add edge-triggered command emission policy (emit-on-change + keepalive).
-- Add deterministic mode-exit handoff behavior.
+- Add deterministic mode-exit handoff behavior in runtime mode-change callback path.
 - Add timeout/retry pattern for synchronous BT action calls.
 
 ### B1. Read-only BT validation
@@ -97,6 +97,7 @@ Goal: introduce automation without jumping directly into closed-loop bioprocess 
 
 - Each stage has repeatable pass/fail runbook steps.
 - No hidden side paths: all actuation still through CallRouter/function API.
+- Mode-exit handoff paths are verified independently of BT ticking.
 - Operator can force MANUAL and recover cleanly at all times.
 
 ## 4) Phase C: Package As A Machine Profile

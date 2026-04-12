@@ -37,6 +37,7 @@ Important implementation constraints from current stack:
 1. `dcmt0 set_open_loop` updates both motor channels in one call.
 2. DCMT firmware ignores `set_open_loop` when mode is not `open_loop`.
 3. `CallDevice` is synchronous in current Anolis BT nodes, so blocking calls stall the tree tick loop.
+4. BT tick loop executes only in `AUTO`, so mode-exit actuator handoff must be implemented in runtime mode-change callback path, not as BT-only logic.
 
 ## 4) Foundation Sprint (Required Before Stage 1 BT Logic)
 
@@ -95,10 +96,13 @@ Why first:
 - Reduces bus traffic and post-call refresh load.
 - Lowers chance of intermittent I2C noise amplifying into repeated failures.
 
-### F) Mode-exit handoff behavior
+### F) Mode-exit handoff behavior (Runtime callback path)
 
 Goal:
 - Define deterministic actuator state on `AUTO -> MANUAL/FAULT/IDLE`.
+
+Implementation location:
+- Runtime mode-change callback path (not BT tick path), because BT stops ticking outside `AUTO`.
 
 Recommended default:
 1. On `AUTO -> MANUAL`: send one handoff command with feed off, impeller preserved.
@@ -119,7 +123,7 @@ Why first:
 3. Bool BT parameter access available and tested.
 4. Open-loop guard verified on real hardware.
 5. Edge-triggered emission policy implemented and tested.
-6. Mode-exit handoff behavior validated.
+6. Mode-exit handoff behavior validated through runtime mode-change callback transitions.
 7. Timeout/retry pattern validated in BT execution flow.
 
 ## 5) Stage 1 BT Behavior (Built On Foundation Primitives)
@@ -190,7 +194,7 @@ Operational rules:
 5. Enable feed and verify pulse schedule accuracy.
 6. Change feed params live via `/v0/parameters`; verify no restart required.
 7. Verify edge-triggered emission (no unnecessary repeated writes when command unchanged).
-8. Verify mode-exit handoff behavior (`AUTO -> MANUAL`, `AUTO -> FAULT`).
+8. Verify mode-exit handoff behavior via runtime transitions (`AUTO -> MANUAL`, `AUTO -> FAULT`).
 9. Inject write-failure scenario and verify configured escalation.
 
 Acceptance:
