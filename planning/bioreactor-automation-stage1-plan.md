@@ -29,6 +29,7 @@ Stage 1 excludes pH closed-loop dosing logic.
 4. If long-running work is needed later, use asynchronous/stateful node patterns that return `RUNNING`.
 
 References:
+
 - https://www.behaviortree.dev/docs/tutorial-basics/tutorial_02_basic_ports/
 - https://www.behaviortree.dev/docs/tutorial-basics/tutorial_04_sequence
 - https://www.behaviortree.dev/docs/guides/ports_vs_blackboard/
@@ -93,13 +94,17 @@ Bioreactor-specific mapping (outside core code):
 
 Per tick in `AUTO`:
 
-1. Re-check required quality gates (`ReactiveSequence` pattern).
-2. Compute impeller command from parameters.
-3. Compute feed active window from scheduler output.
-4. Compose one atomic command for `dcmt0` open-loop write:
+1. Compute impeller command from parameters.
+2. Compute feed active window from scheduler output.
+3. Compose one atomic command for `dcmt0` open-loop write:
    - `motor1_pwm` = impeller command
    - `motor2_pwm` = feed command (or 0 when inactive)
-5. Emit only on change or keepalive interval.
+4. Emit only on change or keepalive interval.
+
+Stage 1 safety scope note:
+
+1. Signal-quality gating for actuation is deferred to Stage 2.
+2. Stage 1 safety relies on deterministic command shaping + transition-hook handoff to safe outputs.
 
 Design rule:
 
@@ -127,7 +132,6 @@ Do not plan against `AUTO -> IDLE` directly; that transition is invalid.
 8. `feed_max_pulses_per_hour` (int64)
 9. `command_keepalive_s` (int64)
 10. `command_min_spacing_ms` (int64)
-11. `write_failure_limit` (int64)
 
 ## 10) Validation Sequence
 
@@ -137,7 +141,7 @@ Do not plan against `AUTO -> IDLE` directly; that transition is invalid.
 4. Enable feed schedule and verify timing.
 5. Verify no excess writes (change/keepalive behavior).
 6. Verify transition-hook handoff behavior.
-7. Inject write failures and verify escalation behavior.
+7. Verify write failures surface as BT/runtime error signals and operator-visible health degradation.
 
 Acceptance criteria:
 
