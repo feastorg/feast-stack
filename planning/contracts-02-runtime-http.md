@@ -1,6 +1,6 @@
 # Runtime HTTP Contract Plan
 
-Status: Ready to execute.
+Status: Complete (slices 1 and 2 implemented).
 Priority: High.
 Intent: Make the `/v0` HTTP surface explicit, testable, and stable enough for UI/composer/tooling integration.
 
@@ -39,9 +39,9 @@ Config contract and HTTP contract are separate layers and remain separate in thi
 
 1. Runtime config schema defines static config shape and constraints.
 2. HTTP OpenAPI defines runtime operations and transport payloads.
-3. Shared concepts (for example mode enums, parameter value shapes, status code semantics) must stay parity-aligned through explicit conformance checks.
-4. Do not introduce cross-file shared schema fragments in this wave; prioritize parity checks first to avoid schema-dialect/tooling churn.
-5. Revisit shared fragment extraction only after `contracts-02` is stable in CI.
+3. Shared concepts (for example mode enums, parameter value shapes, status code semantics) are tracked for parity hardening in the next contract wave.
+4. Do not introduce cross-file shared schema fragments in this wave.
+5. Shared fragment extraction and cross-contract parity enforcement move to `contracts-03`.
 
 ## 5) Required Endpoint Coverage
 
@@ -89,7 +89,7 @@ Required checks:
 2. OpenAPI validates structurally.
 3. Example JSON payloads validate against schema components.
 4. At least one runtime smoke job verifies core endpoints return contract-compatible payloads.
-5. Cross-contract parity checks pass for shared concepts (mode enums, parameter value shape, status code mapping).
+5. Runtime smoke includes deterministic non-200 checks (`400`, `404`, `503`).
 
 Suggested local workflow:
 
@@ -109,6 +109,7 @@ Done when:
 1. OpenAPI exists and is linked from runtime docs.
 2. CI blocks drift between handlers/examples/spec.
 3. Operator UI and validation scripts consume the same contract assumptions.
+4. Non-200 response behavior is contract-checked for core negative paths.
 
 ## 10) Risks and Mitigations
 
@@ -119,4 +120,20 @@ Done when:
 3. Risk: Event/SSE payloads are underdefined.
    - Mitigation: mark SSE as provisional subsection with explicit TODO and validation target.
 4. Risk: Config and HTTP contracts diverge on overlapping concepts.
-   - Mitigation: parity checks now; shared schema fragment extraction considered only in a later, scoped follow-up.
+   - Mitigation: explicit follow-up in `contracts-03` for cross-contract parity and shared-fragment evaluation.
+
+## 11) Closeout Summary
+
+Completed in this wave:
+
+1. OpenAPI contract added and wired as runtime HTTP source of truth.
+2. Structural validation added and gated in CI.
+3. Example manifest + payload fixtures added and schema-validated.
+4. Live runtime conformance smoke added and gated in CI.
+5. Deterministic non-200 checks (`400`, `404`, `503`) added in conformance.
+6. Optional conformance capture output (`--capture-dir`) added for example refresh workflows.
+
+Deferred to next wave:
+
+1. Cross-contract parity enforcement between runtime-config schema and HTTP contract.
+2. Shared schema fragment extraction across config and HTTP contracts.

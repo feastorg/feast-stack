@@ -1,6 +1,6 @@
 # UI, Contracts, and Packaging Roadmap (Index)
 
-Status: Active roadmap index.
+Status: Active roadmap index (`contracts-01` and `contracts-02` complete).
 Purpose: Point to the focused planning documents and lock execution order.
 
 ## Focused Plans
@@ -9,7 +9,7 @@ Purpose: Point to the focused planning documents and lock execution order.
    - `contracts-01-runtime-config.md`
 2. Runtime HTTP contract:
    - `contracts-02-runtime-http.md`
-3. Machine profile contract and packaging:
+3. Machine profile contract and packaging (+ cross-contract parity follow-up):
    - `contracts-03-machine-profile-packaging.md`
 4. Operator UI and composer contract alignment:
    - `contracts-04-ui-composer-alignment.md`
@@ -49,8 +49,8 @@ Do not split tools out of `anolis` until all pass:
 
 ## Future Progression Note
 
-After `contracts-01` and `contracts-02` are stable and green in CI, evaluate a follow-up
-work item for shared schema fragments across config and HTTP contracts.
+After `contracts-01` and `contracts-02` are complete and green in CI, execute the follow-up
+work item in `contracts-03` for parity hardening and potential shared schema fragments.
 
 1. Goal: define overlapping data structures once (where technically feasible).
 2. Constraint: only proceed if schema dialect/tooling choices are explicit and do not
