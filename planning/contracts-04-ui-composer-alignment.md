@@ -1,8 +1,19 @@
 # UI and Composer Contract Alignment Plan
 
-Status: Revised after architecture/code audit.
+Status: Implemented and closed (2026-04-14).
 Priority: High (next after contracts 01-03 foundations).
 Intent: Eliminate drift between System Composer, Operator UI, and runtime contracts.
+
+## Execution Closeout (2026-04-14)
+
+Completed:
+
+1. 04A Composer save validation hardening (schema + semantic server-side, structured 400 errors).
+2. 04B Validation de-drift (frontend semantic save validation removed; backend canonical).
+3. 04C Custom provider lock (v1 unsupported in Composer UI/catalog, server-side rejection for `kind: custom`).
+4. 04D Operator UI fixture alignment (`js/contracts.js` normalizers + fixture tests against canonical runtime-http examples).
+5. 04E CI/local gate completion (new CI lane for UI+Composer contracts, `verify-local.sh` updated).
+6. 04F Docs cleanup (`tools/system-composer/README.md`, `tools/operator-ui/README.md` updated with current contract behavior and dependencies).
 
 ## 1) Why This Phase Exists
 
