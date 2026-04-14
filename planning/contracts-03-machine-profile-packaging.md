@@ -1,6 +1,6 @@
 # Machine Profile Contract and Packaging Plan
 
-Status: Ready to execute (decision lock applied after deep code review).
+Status: Implemented for slices 03A-03D. Slice 03E deferred.
 Priority: High (next after `contracts-01` and `contracts-02` closeout).
 Intent: Make each machine setup a contract-validated package without putting machine semantics into core runtime code.
 
@@ -22,8 +22,8 @@ This plan was reviewed against current code/docs/tests in `anolis`:
 2. System Composer tests currently assert parity against files in `config/bioreactor`.
 3. Proposing an immediate move to `config/machines/<id>/` would create churn and break existing parity tests with no immediate functional gain.
 4. `systems/<project>/` is a composer workspace/output area (gitignored), not a source-controlled machine package location.
-5. Runtime-config and HTTP contracts now have CI gates; machine packaging does not.
-6. No machine manifest schema or validator exists yet.
+5. Runtime-config and HTTP contracts had CI gates while machine packaging did not (pre-implementation baseline).
+6. No machine manifest schema or validator existed at audit time (pre-implementation baseline).
 
 Conclusion:
 
@@ -68,14 +68,14 @@ Each machine package must include `machine-profile.yaml` with required fields:
 
 ## 6) Execution Slices
 
-### Slice 03A — Schema and Baseline Spec
+### Slice 03A — Schema and Baseline Spec (Implemented)
 
 1. Add `anolis/schemas/machine-profile.schema.json`.
 2. Add `anolis/docs/contracts/machine-profile-baseline.md`.
 3. Document required fields and compatibility policy for v1.
 4. Do not move existing machine directories in this slice.
 
-### Slice 03B — Contract Validator and Fixtures
+### Slice 03B — Contract Validator and Fixtures (Implemented)
 
 1. Add `anolis/tools/contracts/validate-machine-profiles.py`.
 2. Add fixture set under `anolis/tests/contracts/machine-profile/`:
@@ -89,19 +89,19 @@ Each machine package must include `machine-profile.yaml` with required fields:
    - referenced provider/behavior file existence,
    - optional runtime-config schema validation of referenced runtime profiles.
 
-### Slice 03C — Bioreactor Package Adoption
+### Slice 03C — Bioreactor Package Adoption (Implemented)
 
 1. Add `anolis/config/bioreactor/machine-profile.yaml`.
 2. Update `anolis/config/bioreactor/README.md` to reference manifest as package authority.
 3. Update `anolis/config/mixed-bus-providers/README.md` to keep scenario-pack positioning clear vs canonical machine package.
 
-### Slice 03D — CI and Local Gate Wiring
+### Slice 03D — CI and Local Gate Wiring (Implemented)
 
 1. Add machine-profile validator to CI strict lane.
 2. Add machine-profile validator to `tools/verify-local.sh`.
 3. Ensure validator failures are blocking for contract drift.
 
-### Slice 03E — Parity and Shared-Structure Follow-Up (From 02)
+### Slice 03E — Parity and Shared-Structure Follow-Up (From 02, Deferred)
 
 1. Add explicit parity checks for overlapping structures where practical (without cross-dialect fragility).
 2. Evaluate shared schema fragments only after 03A-03D are stable and green.
@@ -132,3 +132,16 @@ Each machine package must include `machine-profile.yaml` with required fields:
 3. `config/bioreactor` includes a valid manifest and passes gates.
 4. Local verification path includes machine profile validation.
 5. Packaging rules are clear enough to onboard a second machine package without ad-hoc conventions.
+
+## 10) Closeout Snapshot
+
+Implemented and now in place:
+
+1. machine-profile schema and baseline documentation.
+2. machine-profile validator with valid/invalid fixture sets.
+3. canonical `config/bioreactor/machine-profile.yaml`.
+4. machine-profile validation in CI strict lane and `tools/verify-local.sh`.
+
+Remaining deferred item:
+
+1. Slice 03E (cross-contract parity/shared-structure follow-up).

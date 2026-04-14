@@ -1,6 +1,6 @@
 # UI, Contracts, and Packaging Roadmap (Index)
 
-Status: Active roadmap index (`contracts-01` and `contracts-02` complete).
+Status: Active roadmap index (`contracts-01`, `contracts-02`, and `contracts-03` slices A-D complete; `03E` deferred).
 Purpose: Point to the focused planning documents and lock execution order.
 
 ## Focused Plans
@@ -49,8 +49,8 @@ Do not split tools out of `anolis` until all pass:
 
 ## Future Progression Note
 
-After `contracts-01` and `contracts-02` are complete and green in CI, execute the follow-up
-work item in `contracts-03` for parity hardening and potential shared schema fragments.
+After `contracts-03` slices A-D are complete and green in CI, execute the deferred
+follow-up item `03E` for parity hardening and potential shared schema fragments.
 
 1. Goal: define overlapping data structures once (where technically feasible).
 2. Constraint: only proceed if schema dialect/tooling choices are explicit and do not
