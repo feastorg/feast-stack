@@ -12,10 +12,10 @@ enabling automation logic to be written independent of hardware details.
 | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | [CRUMBS](https://github.com/feastorg/CRUMBS)                                 | I2C framing transport (C, runs on Arduino MCUs and Linux)                                                                     |
 | [bread-crumbs-contracts](https://github.com/feastorg/bread-crumbs-contracts) | BREAD device application layer: type IDs, opcodes, payload layouts, caps schema (header-only C)                               |
-| [anolis-provider-bread](https://github.com/feastorg/anolis-provider-bread)   | ADPP hardware provider for BREAD devices over CRUMBS (Linux hardware builds; foundation builds are cross-platform)            |
-| [anolis-provider-sim](https://github.com/feastorg/anolis-provider-sim)       | ADPP provider for simulated devices with physics modeling and fault injection (reference implementation and development tool) |
-| [anolis](https://github.com/feastorg/anolis)                                 | Runtime: orchestrates providers, maintains state cache, routes control, exposes HTTP API, drives automation                   |
-| [anolis-protocol](https://github.com/feastorg/anolis-protocol)               | ADPP protobuf schema — a standalone repo vendored as a git submodule into each consuming repo                                 |
+| [anolis-provider-bread](https://github.com/anolishq/anolis-provider-bread)   | ADPP hardware provider for BREAD devices over CRUMBS (Linux hardware builds; foundation builds are cross-platform)            |
+| [anolis-provider-sim](https://github.com/anolishq/anolis-provider-sim)       | ADPP provider for simulated devices with physics modeling and fault injection (reference implementation and development tool) |
+| [anolis](https://github.com/anolishq/anolis)                                 | Runtime: orchestrates providers, maintains state cache, routes control, exposes HTTP API, drives automation                   |
+| [anolis-protocol](https://github.com/anolishq/anolis-protocol)               | ADPP protobuf schema — a standalone repo vendored as a git submodule into each consuming repo                                 |
 
 ## Docs
 
